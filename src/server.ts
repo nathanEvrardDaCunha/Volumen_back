@@ -3,10 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log(`\nHello World\n`);
-console.log(`DATABASE_USER: ${process.env.DATABASE_USER}`);
-console.log(`DATABASE_NAME: ${process.env.DATABASE_NAME}`);
-console.log(`DATABASE_URL: ${process.env.DATABASE_URL}\n`);
+console.log(`Hello World\n`);
 
 const app = express();
 app.listen(process.env.APP_PORT, () => {
