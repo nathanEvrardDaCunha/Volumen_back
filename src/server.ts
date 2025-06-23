@@ -3,11 +3,12 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log(`\n Hello World \n`);
-
-console.log(`\n DATABASE_USER: ${process.env.DATABASE_USER} \n`);
+console.log(`\nHello World\n`);
+console.log(`DATABASE_USER: ${process.env.DATABASE_USER}`);
+console.log(`DATABASE_NAME: ${process.env.DATABASE_NAME}`);
+console.log(`DATABASE_URL: ${process.env.DATABASE_URL}\n`);
 
 const app = express();
-app.listen(4000, () => {
-    console.log(`server running on port 4000`);
+app.listen(process.env.APP_PORT, () => {
+    console.log(`Server running on port ${process.env.APP_PORT}`);
 });

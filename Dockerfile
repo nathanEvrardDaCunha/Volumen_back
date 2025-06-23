@@ -19,7 +19,7 @@ COPY . .
 # Build TypeScript to JavaScript
 RUN npm run build
 
-# Remove devDependencies to reduce image size (optional but recommended)
+# Remove devDependencies to reduce image size.
 RUN npm prune --production
 
 # Expose the port the app runs on

@@ -2,13 +2,14 @@
   "name": "volumen_back",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "build/server.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.ts",
     "build": "tsc",
-    "start": "node build/server.js"
+    "start": "node build/server.js",
+    "dev:docker": "docker compose -f docker-compose.dev.yaml up --build",
+    "dev:start": "nodemon --watch src --ext ts --exec node --loader ts-node/esm src/server.ts"
   },
   "repository": {
     "type": "git",
