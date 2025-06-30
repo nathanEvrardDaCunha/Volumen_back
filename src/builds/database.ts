@@ -35,6 +35,8 @@ export async function connectToDB(): Promise<void> {
     }
 }
 
+// TODO: Synchronize the constraint with the codebase (e.g: VARCHAR(${USERNAME_MAX_LENGTH}))
+
 export async function initializeDB(): Promise<void> {
     let client: pkg.PoolClient | undefined;
     try {
@@ -51,7 +53,8 @@ export async function initializeDB(): Promise<void> {
                 avatar_id VARCHAR(50) NOT NULL DEFAULT 'default-avatar.svg',
                 bio TEXT,
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+                updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+                refresh_token VARCHAR(400) UNIQUE
             );
         `);
 

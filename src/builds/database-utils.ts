@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Add zod .default() ?
+
 const EnvSchema = z.enum(['production', 'development']).default('development');
 type EnvType = z.infer<typeof EnvSchema>;
 

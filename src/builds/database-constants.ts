@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Add zod .default() ?
+
 const DbSchema = z.object({
     name: z.string().min(1).default('name'),
     password: z.string().min(1).default('password'),
@@ -36,13 +38,6 @@ try {
 const url =
     db.url ||
     `postgresql://${db.user}:${db.password}@${db.host}:${db.port}/${db.name}`;
-
-console.log(`DB user: ${db.user}`);
-console.log(`URL password: ${db.password}`);
-console.log(`URL host: ${db.host}`);
-console.log(`URL port: ${db.port}`);
-console.log(`URL name: ${db.name}`);
-console.log(`URL url: ${url}`);
 
 export const DB = {
     NAME: db.name,
