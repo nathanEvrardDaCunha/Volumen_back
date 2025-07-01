@@ -24,11 +24,14 @@ const corsOptions: CorsOption = {
     credentials: true,
 };
 
+// Implement error handler
+// See if error 400 trigger "cannot connect server" on frontend ?
+
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
-app.use('/api/users', authRouter);
+app.use('/api/auth', authRouter);
 
 async function startServer(): Promise<void> {
     try {

@@ -15,7 +15,7 @@ async function hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, BCRYPT_ROUND);
 }
 
-export async function createUserService(
+export async function registerService(
     username: unknown,
     email: unknown,
     password: unknown
@@ -85,4 +85,78 @@ export async function createUserService(
     // Verify refreshtoken is unique in db (equal to 1 result only) ?
 }
 
+export async function isPasswordMatch(
+    password: string,
+    hashedPassword: string
+): Promise<boolean> {
+    return await bcrypt.compare(password, hashedPassword);
+}
+
 // When login, verify the refresh token is still valid (or create a middleware for this)
+export async function loginService(
+    email: unknown,
+    password: unknown
+): Promise<{ refreshToken: string; accessToken: string }> {
+    // Does zod error bubble up by themselves ? => Test this when error middleware implemented
+    const FormSchema = z.object({
+        email: z.string().email(),
+        password: z
+            .string()
+            .min(8)
+            .refine((password) => /[A-Z]/.test(password), {
+                message: 'Password must contain at least one uppercase letter',
+            })
+            .refine((password) => /[a-z]/.test(password), {
+                message: 'Password must contain at least one lowercase letter',
+            })
+            .refine((password) => /[0-9]/.test(password), {
+                message: 'Password must contain at least one number',
+            })
+            .refine((password) => /[!@#$%^&*]/.test(password), {
+                message: 'Password must contain at least one special character',
+            }),
+    });
+    type FormType = z.infer<typeof FormSchema>;
+
+    const unknownForm = {
+        email: email,
+        password: password,
+    };
+
+    // Include try/catch like the other or the errors will bubble up ?
+    let form: FormType;
+    form = FormSchema.parse(unknownForm);
+
+    // For each error, add a custom field "hint" to tell the user how to fix is problem by himself first ?
+
+    const user = await getUserByEmail(form.email);
+    if (!user) {
+        // throw new NotFoundError('User has not been found in database.');
+        throw new Error('User has not been found in database.');
+    }
+
+    // Hash the password before testing ?
+    const passwordMatch = await isPasswordMatch(
+        form.password,
+        user.password_hash
+    );
+    if (!passwordMatch) {
+        // throw new ForbiddenError('Invalid Credentials !');
+        throw new Error('Invalid user credentials.');
+    }
+
+    const accessToken = jwt.sign({ id: user.id }, JWT.ACCESS_TOKEN, {
+        expiresIn: '5m',
+    });
+
+    const refreshToken = jwt.sign({ id: user.id }, JWT.REFRESH_TOKEN, {
+        expiresIn: '14d',
+    });
+
+    await setRefreshTokenByUserId(refreshToken, user.id);
+
+    return {
+        refreshToken: refreshToken,
+        accessToken: accessToken,
+    };
+}
