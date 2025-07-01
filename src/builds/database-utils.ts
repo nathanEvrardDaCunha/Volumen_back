@@ -18,4 +18,5 @@ try {
     process.exit(1);
 }
 
-export const SSL = env === 'production' ? { rejectUnauthorized: false } : false;
+const SSL = env === 'production' ? { rejectUnauthorized: false } : false;
+export default SSL;

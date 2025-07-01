@@ -8,8 +8,13 @@ import {
     isUsernameUnavailable,
     setRefreshTokenByUserId,
 } from '../../models/user-models.js';
-import { BCRYPT_ROUND } from './auth-constants.js';
-import { JWT } from '../../jwt-constants.js';
+import BCRYPT_ROUND from './auth-constants.js';
+import JWT from '../../jwt-constants.js';
+import {
+    ConflictError,
+    ForbiddenError,
+    NotFoundError,
+} from '../../middlewares/ClientError.js';
 
 async function hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, BCRYPT_ROUND);
@@ -52,18 +57,14 @@ export async function registerService(
     let form: FormType;
     form = FormSchema.parse(unknownForm);
 
-    // For each error, add a custom field "hint" to tell the user how to fix is problem by himself first ?
-
     const usernameError = await isUsernameUnavailable(form.username);
     if (usernameError) {
-        // throw new ConflictError('Username already exist in database.');
-        throw new Error('Username already exist in database.');
+        throw new ConflictError('Username already exist in database.');
     }
 
     const emailError = await isEmailUnavailable(form.email);
     if (emailError) {
-        // throw new ConflictError('Email already exist in database.');
-        throw new Error('Email already exist in database.');
+        throw new ConflictError('Email already exist in database.');
     }
 
     const hashedPassword = await hashPassword(form.password);
@@ -72,8 +73,7 @@ export async function registerService(
 
     const user = await getUserByEmail(form.email);
     if (!user) {
-        // throw new NotFoundError('User has not been found in database.');
-        throw new Error('User has not been found in database.');
+        throw new NotFoundError('User has not been found in database.');
     }
 
     const refreshToken = jwt.sign({ id: user.id }, JWT.REFRESH_TOKEN, {
@@ -127,22 +127,17 @@ export async function loginService(
     let form: FormType;
     form = FormSchema.parse(unknownForm);
 
-    // For each error, add a custom field "hint" to tell the user how to fix is problem by himself first ?
-
     const user = await getUserByEmail(form.email);
     if (!user) {
-        // throw new NotFoundError('User has not been found in database.');
-        throw new Error('User has not been found in database.');
+        throw new NotFoundError('User has not been found in database.');
     }
 
-    // Hash the password before testing ?
     const passwordMatch = await isPasswordMatch(
         form.password,
         user.password_hash
     );
     if (!passwordMatch) {
-        // throw new ForbiddenError('Invalid Credentials !');
-        throw new Error('Invalid user credentials.');
+        throw new ForbiddenError('Invalid user credentials.');
     }
 
     const accessToken = jwt.sign({ id: user.id }, JWT.ACCESS_TOKEN, {

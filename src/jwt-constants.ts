@@ -24,7 +24,8 @@ try {
     process.exit(1);
 }
 
-export const JWT = {
+const JWT = {
     ACCESS_TOKEN: jwt.access_token,
     REFRESH_TOKEN: jwt.refresh_token,
 } as const;
+export default JWT;

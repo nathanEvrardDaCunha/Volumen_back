@@ -4,7 +4,8 @@ import authRouter from './features/authentication/auth-routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { connectToDB, initializeDB } from './builds/database.js';
-import { APP } from './server-constants.js';
+import APP from './server-constants.js';
+import errorHandler from './middlewares/error-handlers.js';
 
 dotenv.config();
 
@@ -24,14 +25,15 @@ const corsOptions: CorsOption = {
     credentials: true,
 };
 
-// Implement error handler
-// See if error 400 trigger "cannot connect server" on frontend ?
-
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
 
 app.use('/api/auth', authRouter);
+
+// Create default route for 404 not found
+
+app.use(errorHandler);
 
 async function startServer(): Promise<void> {
     try {

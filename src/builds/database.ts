@@ -1,6 +1,6 @@
 import pkg from 'pg';
-import { DB } from './database-constants.js';
-import { SSL } from './database-utils.js';
+import DB from './database-constants.js';
+import SSL from './database-utils.js';
 
 const { Pool } = pkg;
 

@@ -34,10 +34,11 @@ try {
     process.exit(1);
 }
 
-export const APP = {
+const APP = {
     ENV: app.env,
     API_URL: app.api_url,
     API_PORT: app.api_port,
     FRONT_URL: app.front_url,
     FRONT_PORT: app.front_port,
 };
+export default APP;

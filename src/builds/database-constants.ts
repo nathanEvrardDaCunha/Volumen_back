@@ -39,7 +39,7 @@ const url =
     db.url ||
     `postgresql://${db.user}:${db.password}@${db.host}:${db.port}/${db.name}`;
 
-export const DB = {
+const DB = {
     NAME: db.name,
     HOST: db.host,
     PORT: db.port,
@@ -47,3 +47,4 @@ export const DB = {
     PASSWORD: db.password,
     URL: url,
 } as const;
+export default DB;

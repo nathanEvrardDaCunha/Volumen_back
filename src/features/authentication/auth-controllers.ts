@@ -29,12 +29,6 @@ export async function registerController(
             message: 'User has been created successfully.',
         });
     } catch (error) {
-        // TODO: Implement error handler middleware
-        // TODO: Implement mainstream http errors
-        // TODO: Remove the console.error
-
-        console.error(error);
-
         next(error);
     }
 }
@@ -76,12 +70,6 @@ export async function loginController(
             },
         });
     } catch (error) {
-        // TODO: Implement error handler middleware
-        // TODO: Implement mainstream http errors
-        // TODO: Remove the console.error
-
-        console.error(error);
-
         next(error);
     }
 }

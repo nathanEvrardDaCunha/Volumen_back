@@ -21,4 +21,5 @@ try {
     process.exit(1);
 }
 
-export const BCRYPT_ROUND = bcrypt;
+const BCRYPT_ROUND = bcrypt;
+export default BCRYPT_ROUND;
