@@ -14,11 +14,13 @@ import {
     ConflictError,
     ForbiddenError,
     NotFoundError,
-} from '../../middlewares/ClientError.js';
+} from '../../middlewares/errors/ClientError.js';
 
 async function hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, BCRYPT_ROUND);
 }
+
+// Should I use zod for condition like "if (usernameError)" instead of conditional ?
 
 export async function registerService(
     username: unknown,
@@ -26,6 +28,9 @@ export async function registerService(
     password: unknown
 ): Promise<void> {
     // Does zod error bubble up by themselves ? => Test this when error middleware implemented
+
+    // Should the zod schema be outside of the function ?
+
     const FormSchema = z.object({
         username: z.string().min(5),
         email: z.string().email(),
@@ -98,6 +103,9 @@ export async function loginService(
     password: unknown
 ): Promise<{ refreshToken: string; accessToken: string }> {
     // Does zod error bubble up by themselves ? => Test this when error middleware implemented
+
+    // Should the zod schema be outside of the function ?
+
     const FormSchema = z.object({
         email: z.string().email(),
         password: z

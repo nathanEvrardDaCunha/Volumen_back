@@ -100,6 +100,46 @@ export async function getUserByEmail(email: string): Promise<UserType | false> {
     }
 }
 
+export async function getUserById(id: string): Promise<UserType | false> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+
+        const result = await client.query(
+            'SELECT id, username, email, password_hash, avatar_id, bio, created_at, updated_at, refresh_token FROM users WHERE id = $1',
+            [id]
+        );
+
+        if (result.rows.length === 0) {
+            return false;
+        }
+
+        if (result.rows[0].length === 0) {
+            return false;
+        }
+
+        const unknownUser = {
+            id: result.rows[0].id as unknown,
+            username: result.rows[0].username as unknown,
+            email: result.rows[0].email as unknown,
+            password_hash: result.rows[0].password_hash as unknown,
+            avatar_id: result.rows[0].avatar_id as unknown,
+            bio: result.rows[0].bio as unknown,
+            created_at: result.rows[0].created_at as unknown,
+            updated_at: result.rows[0].updated_at as unknown,
+            refresh_token: result.rows[0].refresh_token as unknown,
+        };
+
+        const user = UserSchema.parse(unknownUser);
+
+        return user;
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
 export async function setRefreshTokenByUserId(
     refreshToken: string,
     id: string

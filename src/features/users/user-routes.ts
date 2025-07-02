@@ -1,0 +1,9 @@
+import express from 'express';
+import { fetchUserController } from './user-controllers.js';
+
+const userRouter = express.Router();
+
+// When completely finished, might implement test ?
+userRouter.route('/').get(fetchUserController);
+
+export default userRouter;

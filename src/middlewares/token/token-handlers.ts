@@ -1,0 +1,59 @@
+import { Request, Response, NextFunction } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import { UnauthorizedError } from '../errors/ClientError.js';
+import JWT from '../../jwt-constants.js';
+import z from 'zod';
+
+declare module 'express-serve-static-core' {
+    interface Request {
+        id?: string;
+    }
+}
+
+// Extract zod logic somewhere (for every file using zod)
+// Check for white using zod .trim()
+
+const AccessTokenSchema = z.string().min(5);
+
+const DecodedSchema = z.object({
+    id: z.string().uuid(),
+});
+
+export function tokenHandler(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): void {
+    const authorizationHeader = req.headers['authorization'];
+    if (!authorizationHeader) {
+        throw new UnauthorizedError('Authentication header is undefined !');
+    }
+
+    const accessToken = authorizationHeader.split(' ')[1];
+    const newAccessToken = AccessTokenSchema.parse(accessToken);
+
+    jwt.verify(
+        newAccessToken,
+        JWT.ACCESS_TOKEN,
+        (
+            err: jwt.VerifyErrors | null,
+            decoded: string | JwtPayload | undefined
+        ) => {
+            if (err) {
+                throw new UnauthorizedError('Access token is invalid !');
+            }
+
+            const result = DecodedSchema.safeParse(decoded);
+            if (!result.success) {
+                console.error(
+                    'Decoded JWT payload validation failed:',
+                    result.error.errors
+                );
+                throw new UnauthorizedError('Decoded JWT payload is invalid!');
+            }
+
+            req.id = result.data.id;
+            next();
+        }
+    );
+}

@@ -5,7 +5,9 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { connectToDB, initializeDB } from './builds/database.js';
 import APP from './server-constants.js';
-import errorHandler from './middlewares/error-handlers.js';
+import errorHandler from './middlewares/errors/error-handlers.js';
+import { tokenHandler } from './middlewares/token/token-handlers.js';
+import userRouter from './features/users/user-routes.js';
 
 dotenv.config();
 
@@ -30,6 +32,9 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use('/api/auth', authRouter);
+
+app.use(tokenHandler);
+app.use('/api/users', userRouter);
 
 // Create default route for 404 not found
 
