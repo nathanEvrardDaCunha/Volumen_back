@@ -8,16 +8,16 @@ import {
     isUsernameUnavailable,
     setRefreshTokenByUserId,
 } from '../../models/user-models.js';
-import BCRYPT_ROUND from './bcrypt-constants.js';
 import JWT from '../../constants/jwt-constants.js';
 import {
     ConflictError,
     ForbiddenError,
     NotFoundError,
 } from '../../middlewares/errors/ClientError.js';
+import BCRYPT from './bcrypt-constants.js';
 
 async function hashPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, BCRYPT_ROUND);
+    return await bcrypt.hash(password, BCRYPT);
 }
 
 // Should I use zod for condition like "if (usernameError)" instead of conditional ?
