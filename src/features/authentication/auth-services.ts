@@ -8,8 +8,8 @@ import {
     isUsernameUnavailable,
     setRefreshTokenByUserId,
 } from '../../models/user-models.js';
-import BCRYPT_ROUND from './auth-constants.js';
-import JWT from '../../jwt-constants.js';
+import BCRYPT_ROUND from './bcrypt-constants.js';
+import JWT from '../../constants/jwt-constants.js';
 import {
     ConflictError,
     ForbiddenError,
@@ -81,7 +81,7 @@ export async function registerService(
         throw new NotFoundError('User has not been found in database.');
     }
 
-    const refreshToken = jwt.sign({ id: user.id }, JWT.REFRESH_TOKEN, {
+    const refreshToken = jwt.sign({ id: user.id }, JWT.refresh_token, {
         expiresIn: '14d',
     });
 
@@ -137,7 +137,7 @@ export async function loginService(
 
     const user = await getUserByEmail(form.email);
     if (!user) {
-        throw new NotFoundError('User has not been found in database.');
+        throw new NotFoundError('Invalid user credentials.');
     }
 
     const passwordMatch = await isPasswordMatch(
@@ -148,11 +148,11 @@ export async function loginService(
         throw new ForbiddenError('Invalid user credentials.');
     }
 
-    const accessToken = jwt.sign({ id: user.id }, JWT.ACCESS_TOKEN, {
+    const accessToken = jwt.sign({ id: user.id }, JWT.access_token, {
         expiresIn: '5m',
     });
 
-    const refreshToken = jwt.sign({ id: user.id }, JWT.REFRESH_TOKEN, {
+    const refreshToken = jwt.sign({ id: user.id }, JWT.refresh_token, {
         expiresIn: '14d',
     });
 

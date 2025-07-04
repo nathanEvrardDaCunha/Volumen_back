@@ -1,12 +1,12 @@
 import pkg from 'pg';
-import DB from './database-constants.js';
-import SSL from './database-utils.js';
+import DB from './db-constants.js';
+import getSslConfig from './db-utils.js';
 
 const { Pool } = pkg;
 
 const connectionOptions = {
-    connectionString: DB.URL,
-    ssl: SSL,
+    connectionString: DB.url,
+    ssl: getSslConfig(),
 };
 
 export const pool = new Pool(connectionOptions);

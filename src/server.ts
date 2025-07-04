@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 import authRouter from './features/authentication/auth-routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { connectToDB, initializeDB } from './builds/database.js';
-import APP from './server-constants.js';
+import { connectToDB, initializeDB } from './builds/db.js';
+import APP from './constants/app-constants.js';
 import errorHandler from './middlewares/errors/error-handlers.js';
 import { tokenHandler } from './middlewares/token/token-handlers.js';
 import userRouter from './features/users/user-routes.js';
@@ -21,7 +21,7 @@ interface CorsOption {
 }
 
 const corsOptions: CorsOption = {
-    origin: `${APP.FRONT_URL}:${APP.FRONT_PORT}`,
+    origin: `${APP.front_url}:${APP.front_port}`,
     methods: 'GET,POST,PUT,DELETE,PATCH',
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -47,9 +47,9 @@ async function startServer(): Promise<void> {
         await connectToDB();
         await initializeDB();
 
-        app.listen(APP.API_PORT, () => {
-            console.log(`Server running in ${APP.ENV} mode`);
-            console.log(`Server running at: ${APP.API_URL}:${APP.API_PORT}`);
+        app.listen(APP.api_port, () => {
+            console.log(`Server running in ${APP.app_env} mode`);
+            console.log(`Server running at: ${APP.api_url}:${APP.api_port}`);
             console.log('Database connection successful');
         });
     } catch (error) {

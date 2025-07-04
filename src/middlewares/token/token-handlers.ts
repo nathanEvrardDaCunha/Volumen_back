@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import { UnauthorizedError } from '../errors/ClientError.js';
-import JWT from '../../jwt-constants.js';
+import JWT from '../../constants/jwt-constants.js';
 import z from 'zod';
 
 declare module 'express-serve-static-core' {
@@ -34,7 +34,7 @@ export function tokenHandler(
 
     jwt.verify(
         newAccessToken,
-        JWT.ACCESS_TOKEN,
+        JWT.access_token,
         (
             err: jwt.VerifyErrors | null,
             decoded: string | JwtPayload | undefined

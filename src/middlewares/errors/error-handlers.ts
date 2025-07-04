@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { ClientError } from './ClientError.js';
 
+// Check for Zod Error ?
+
 export default function errorHandler(
     err: ClientError | Error,
     req: Request,
