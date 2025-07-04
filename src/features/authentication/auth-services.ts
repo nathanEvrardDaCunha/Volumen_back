@@ -13,7 +13,7 @@ import {
     ConflictError,
     ForbiddenError,
     NotFoundError,
-} from '../../middlewares/errors/ClientError.js';
+} from '../../utils/errors/ClientError.js';
 import BCRYPT from './bcrypt-constants.js';
 
 async function hashPassword(password: string): Promise<string> {

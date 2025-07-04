@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { loginService, registerService } from './auth-services.js';
+import { CreatedResponse } from '../../utils/responses/SuccessResponse.js';
 
 export async function registerController(
     req: Request,
@@ -17,17 +18,11 @@ export async function registerController(
         // Don't forget to validate and sanitize user input.
         await registerService(unknownUsername, unknownEmail, unknownPassword);
 
-        // const response = new CreatedResponse(
-        //     'User has been created successfully.',
-        //     null
-        // );
+        const response = new CreatedResponse(
+            'User has been created successfully.'
+        );
 
-        // // httpCode is not implemented, same as toJSON and "response" in general
-        // res.status(response.httpCode).json(response.toJSON());
-        res.status(201).json({
-            status: 201,
-            message: 'User has been created successfully.',
-        });
+        res.status(response.httpCode).json(response.toJSON());
     } catch (error) {
         next(error);
     }
@@ -48,27 +43,19 @@ export async function loginController(
         // Don't forget to validate and sanitize user input.
         const result = await loginService(unknownEmail, unknownPassword);
 
-        // const response = new OkResponse(
-        //     'User has been authenticated successfully.',
-        //     {
-        //         accessToken: result.accessToken,
-        //     }
-        // );
+        const response = new CreatedResponse(
+            'User has been authenticated successfully.',
+            {
+                accessToken: result.accessToken,
+            }
+        );
 
         res.cookie('refreshToken', result.refreshToken, {
             httpOnly: true,
             maxAge: 14 * 24 * 60 * 60 * 1000,
         });
 
-        // // httpCode is not implemented, same as toJSON and "response" in general
-        // res.status(response.httpCode).json(response.toJSON());
-        res.status(201).json({
-            status: 201,
-            message: 'User has been logged successfully.',
-            data: {
-                accessToken: result.accessToken,
-            },
-        });
+        res.status(response.httpCode).json(response.toJSON());
     } catch (error) {
         next(error);
     }

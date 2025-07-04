@@ -5,6 +5,7 @@ export class ClientError extends BaseError {
     constructor(name: string, cause: string, hint: string, httpCode: number) {
         super(name, cause, hint, httpCode);
 
+        // Are these validations necessary ?
         if (typeof name !== 'string') {
             this.name = 'Client error';
         }

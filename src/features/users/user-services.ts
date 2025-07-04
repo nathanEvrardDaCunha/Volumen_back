@@ -1,8 +1,5 @@
 import z from 'zod';
-import {
-    ConflictError,
-    NotFoundError,
-} from '../../middlewares/errors/ClientError.js';
+import { NotFoundError } from '../../utils/errors/ClientError.js';
 import { getUserById } from '../../models/user-models.js';
 import { UserType } from '../../models/user-types.js';
 

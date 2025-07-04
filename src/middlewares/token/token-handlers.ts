@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import { UnauthorizedError } from '../errors/ClientError.js';
 import JWT from '../../constants/jwt-constants.js';
 import z from 'zod';
+import { UnauthorizedError } from '../../utils/errors/ClientError.js';
 
 declare module 'express-serve-static-core' {
     interface Request {
