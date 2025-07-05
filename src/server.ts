@@ -8,6 +8,7 @@ import APP from './constants/app-constants.js';
 import errorHandler from './middlewares/errors/error-handlers.js';
 import { tokenHandler } from './middlewares/token/token-handlers.js';
 import userRouter from './features/users/user-routes.js';
+import { notFoundHandler } from './middlewares/not-found/not-found-handlers.js';
 
 dotenv.config();
 
@@ -33,10 +34,9 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 
-app.use(tokenHandler);
-app.use('/api/users', userRouter);
+app.use('/api/users', tokenHandler, userRouter);
 
-// Create default route for 404 not found
+app.use(notFoundHandler);
 
 app.use(errorHandler);
 

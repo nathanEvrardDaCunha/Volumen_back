@@ -10,9 +10,6 @@ declare module 'express-serve-static-core' {
     }
 }
 
-// Extract zod logic somewhere (for every file using zod)
-// Check for white using zod .trim()
-
 const AccessTokenSchema = z.string().min(5);
 
 const DecodedSchema = z.object({
