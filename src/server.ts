@@ -1,4 +1,4 @@
-import express, { Application } from 'express';
+import express from 'express';
 import dotenv from 'dotenv';
 import authRouter from './features/authentication/auth-routes.js';
 import cookieParser from 'cookie-parser';
@@ -11,7 +11,7 @@ import userRouter from './features/users/user-routes.js';
 
 dotenv.config();
 
-const app: Application = express();
+const app = express();
 
 interface CorsOption {
     origin: string | string[];
