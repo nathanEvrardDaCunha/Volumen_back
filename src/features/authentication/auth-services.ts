@@ -1,4 +1,3 @@
-import z from 'zod';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {
@@ -23,60 +22,25 @@ async function hashPassword(password: string): Promise<string> {
 // Should I use zod for condition like "if (usernameError)" instead of conditional ?
 
 export async function registerService(
-    username: unknown,
-    email: unknown,
-    password: unknown
+    username: string,
+    email: string,
+    password: string
 ): Promise<void> {
-    // Does zod error bubble up by themselves ? => Test this when error middleware implemented
-
-    // Should the zod schema be outside of the function ?
-
-    const FormSchema = z.object({
-        username: z.string().min(5),
-        email: z.string().email(),
-        password: z
-            .string()
-            .min(8)
-            .refine((password) => /[A-Z]/.test(password), {
-                message: 'Password must contain at least one uppercase letter',
-            })
-            .refine((password) => /[a-z]/.test(password), {
-                message: 'Password must contain at least one lowercase letter',
-            })
-            .refine((password) => /[0-9]/.test(password), {
-                message: 'Password must contain at least one number',
-            })
-            .refine((password) => /[!@#$%^&*]/.test(password), {
-                message: 'Password must contain at least one special character',
-            }),
-    });
-    type FormType = z.infer<typeof FormSchema>;
-
-    const unknownForm = {
-        username: username,
-        email: email,
-        password: password,
-    };
-
-    // Include try/catch like the other or the errors will bubble up ?
-    let form: FormType;
-    form = FormSchema.parse(unknownForm);
-
-    const usernameError = await isUsernameUnavailable(form.username);
+    const usernameError = await isUsernameUnavailable(username);
     if (usernameError) {
         throw new ConflictError('Username already exist in database.');
     }
 
-    const emailError = await isEmailUnavailable(form.email);
+    const emailError = await isEmailUnavailable(email);
     if (emailError) {
         throw new ConflictError('Email already exist in database.');
     }
 
-    const hashedPassword = await hashPassword(form.password);
+    const hashedPassword = await hashPassword(password);
 
-    await createUser(form.username, form.email, hashedPassword);
+    await createUser(username, email, hashedPassword);
 
-    const user = await getUserByEmail(form.email);
+    const user = await getUserByEmail(email);
     if (!user) {
         throw new NotFoundError('User has not been found in database.');
     }
@@ -99,51 +63,15 @@ export async function isPasswordMatch(
 
 // When login, verify the refresh token is still valid (or create a middleware for this)
 export async function loginService(
-    email: unknown,
-    password: unknown
+    email: string,
+    password: string
 ): Promise<{ refreshToken: string; accessToken: string }> {
-    // Does zod error bubble up by themselves ? => Test this when error middleware implemented
-
-    // Should the zod schema be outside of the function ?
-
-    const FormSchema = z.object({
-        email: z.string().email(),
-        password: z
-            .string()
-            .min(8)
-            .refine((password) => /[A-Z]/.test(password), {
-                message: 'Password must contain at least one uppercase letter',
-            })
-            .refine((password) => /[a-z]/.test(password), {
-                message: 'Password must contain at least one lowercase letter',
-            })
-            .refine((password) => /[0-9]/.test(password), {
-                message: 'Password must contain at least one number',
-            })
-            .refine((password) => /[!@#$%^&*]/.test(password), {
-                message: 'Password must contain at least one special character',
-            }),
-    });
-    type FormType = z.infer<typeof FormSchema>;
-
-    const unknownForm = {
-        email: email,
-        password: password,
-    };
-
-    // Include try/catch like the other or the errors will bubble up ?
-    let form: FormType;
-    form = FormSchema.parse(unknownForm);
-
-    const user = await getUserByEmail(form.email);
+    const user = await getUserByEmail(email);
     if (!user) {
         throw new NotFoundError('Invalid user credentials.');
     }
 
-    const passwordMatch = await isPasswordMatch(
-        form.password,
-        user.password_hash
-    );
+    const passwordMatch = await isPasswordMatch(password, user.password_hash);
     if (!passwordMatch) {
         throw new ForbiddenError('Invalid user credentials.');
     }

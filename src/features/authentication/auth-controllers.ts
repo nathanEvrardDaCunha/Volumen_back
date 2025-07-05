@@ -1,22 +1,38 @@
 import { Request, Response, NextFunction } from 'express';
 import { loginService, registerService } from './auth-services.js';
 import { CreatedResponse } from '../../utils/responses/SuccessResponse.js';
+import z from 'zod';
 
+const RegisterSchema = z.object({
+    username: z.string().min(5),
+    email: z.string().email(),
+    password: z
+        .string()
+        .min(8)
+        .refine((password) => /[A-Z]/.test(password), {
+            message: 'Password must contain at least one uppercase letter',
+        })
+        .refine((password) => /[a-z]/.test(password), {
+            message: 'Password must contain at least one lowercase letter',
+        })
+        .refine((password) => /[0-9]/.test(password), {
+            message: 'Password must contain at least one number',
+        })
+        .refine((password) => /[!@#$%^&*]/.test(password), {
+            message: 'Password must contain at least one special character',
+        }),
+});
+
+// Don't forget to sanitize user input.
 export async function registerController(
     req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> {
     try {
-        const { username, email, password } = req.body;
+        const { username, email, password } = RegisterSchema.parse(req.body);
 
-        // Verify this is good practice or boilerplate knowing i'll use zod to validate them later ?
-        const unknownUsername = username as unknown;
-        const unknownEmail = email as unknown;
-        const unknownPassword = password as unknown;
-
-        // Don't forget to validate and sanitize user input.
-        await registerService(unknownUsername, unknownEmail, unknownPassword);
+        await registerService(username, email, password);
 
         const response = new CreatedResponse(
             'User has been created successfully.'
@@ -28,20 +44,35 @@ export async function registerController(
     }
 }
 
+const LoginSchema = z.object({
+    email: z.string().email(),
+    password: z
+        .string()
+        .min(8)
+        .refine((password) => /[A-Z]/.test(password), {
+            message: 'Password must contain at least one uppercase letter',
+        })
+        .refine((password) => /[a-z]/.test(password), {
+            message: 'Password must contain at least one lowercase letter',
+        })
+        .refine((password) => /[0-9]/.test(password), {
+            message: 'Password must contain at least one number',
+        })
+        .refine((password) => /[!@#$%^&*]/.test(password), {
+            message: 'Password must contain at least one special character',
+        }),
+});
+
+// Don't forget to sanitize user input.
 export async function loginController(
     req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> {
     try {
-        const { email, password } = req.body;
+        const { email, password } = LoginSchema.parse(req.body);
 
-        // Verify this is good practice or boilerplate knowing i'll use zod to validate them later ?
-        const unknownEmail = email as unknown;
-        const unknownPassword = password as unknown;
-
-        // Don't forget to validate and sanitize user input.
-        const result = await loginService(unknownEmail, unknownPassword);
+        const result = await loginService(email, password);
 
         const response = new CreatedResponse(
             'User has been authenticated successfully.',
