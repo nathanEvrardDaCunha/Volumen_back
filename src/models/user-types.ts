@@ -1,7 +1,5 @@
 import z from 'zod';
 
-// Add zod .default() ?
-
 export const UserSchema = z.object({
     id: z.string().uuid(),
     username: z.string().min(5),

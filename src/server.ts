@@ -5,10 +5,11 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { connectToDB, initializeDB } from './builds/db.js';
 import APP from './constants/app-constants.js';
-import errorHandler from './middlewares/errors/error-handlers.js';
-import { tokenHandler } from './middlewares/token/token-handlers.js';
 import userRouter from './features/users/user-routes.js';
-import { notFoundHandler } from './middlewares/not-found/not-found-handlers.js';
+import errorHandler from './middlewares/error-handlers.js';
+import notFoundHandler from './middlewares/not-found-handlers.js';
+import tokenHandler from './middlewares/token-handlers.js';
+import rateHandler from './middlewares/rate-limiter-handlers.js';
 
 dotenv.config();
 
@@ -31,6 +32,8 @@ const corsOptions: CorsOption = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(rateHandler);
 
 app.use('/api/auth', authRouter);
 

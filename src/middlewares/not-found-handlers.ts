@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { NotFoundError } from '../../utils/errors/ClientError.js';
+import { NotFoundError } from '../utils/errors/ClientError.js';
 
-export function notFoundHandler(
+export default function notFoundHandler(
     req: Request,
     res: Response,
     next: NextFunction

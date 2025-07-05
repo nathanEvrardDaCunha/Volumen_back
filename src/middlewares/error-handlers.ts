@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { ClientError } from '../../utils/errors/ClientError.js';
+import { ClientError } from '../utils/errors/ClientError.js';
 
 // Check for Zod Error ?
 

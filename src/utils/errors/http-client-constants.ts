@@ -4,6 +4,7 @@ const HTTP_CLIENT = {
     FORBIDDEN: 403,
     NOT_FOUND: 404,
     CONFLICT: 409,
+    TOO_MANY_REQUEST: 429,
 } as const;
 
 export default HTTP_CLIENT;

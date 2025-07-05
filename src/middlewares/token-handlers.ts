@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import JWT from '../../constants/jwt-constants.js';
 import z from 'zod';
-import { UnauthorizedError } from '../../utils/errors/ClientError.js';
+import JWT from '../constants/jwt-constants.js';
+import { UnauthorizedError } from '../utils/errors/ClientError.js';
 
 declare module 'express-serve-static-core' {
     interface Request {
@@ -16,7 +16,7 @@ const DecodedSchema = z.object({
     id: z.string().uuid(),
 });
 
-export function tokenHandler(
+export default function tokenHandler(
     req: Request,
     res: Response,
     next: NextFunction

@@ -59,3 +59,12 @@ export class ConflictError extends ClientError {
         super('CONFLICT', cause, hint, HTTP_CLIENT.CONFLICT);
     }
 }
+
+export class TooManyRequestsError extends ClientError {
+    constructor(
+        cause: string = 'Server has temporarily blocked your IP due too many request',
+        hint: string = 'Please try again after waiting a few minutes.'
+    ) {
+        super('TOO MANY REQUEST', cause, hint, HTTP_CLIENT.TOO_MANY_REQUEST);
+    }
+}
