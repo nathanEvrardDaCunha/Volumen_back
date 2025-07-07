@@ -10,6 +10,7 @@ import errorHandler from './middlewares/error-handlers.js';
 import notFoundHandler from './middlewares/not-found-handlers.js';
 import tokenHandler from './middlewares/token-handlers.js';
 import rateHandler from './middlewares/rate-limiter-handlers.js';
+import tokenRouter from './features/token/token-routes.js';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ app.use(express.json());
 app.use(rateHandler);
 
 app.use('/api/auth', authRouter);
+app.use('/api/token', tokenRouter);
 
 app.use('/api/users', tokenHandler, userRouter);
 
