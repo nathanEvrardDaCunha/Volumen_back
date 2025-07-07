@@ -150,3 +150,104 @@ export async function setRefreshTokenToNull(
         }
     }
 }
+
+export async function isUsernameTaken(username: string): Promise<boolean> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        const result = await client.query(
+            `SELECT username FROM users WHERE username=$1`,
+            [username]
+        );
+        return result.rows.length > 0;
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
+export async function isEmailTaken(email: string): Promise<boolean> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        const result = await client.query(
+            `SELECT email FROM users WHERE email=$1`,
+            [email]
+        );
+        return result.rows.length > 0;
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
+export async function setUsernameByUserId(
+    id: string,
+    username: string
+): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(`UPDATE users SET username = $1 WHERE id = $2`, [
+            username,
+            id,
+        ]);
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
+export async function setEmailByUserId(
+    id: string,
+    email: string
+): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(`UPDATE users SET email = $1 WHERE id = $2`, [
+            email,
+            id,
+        ]);
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
+export async function setPasswordByUserId(
+    id: string,
+    password: string
+): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(
+            `UPDATE users SET password_hash = $1 WHERE id = $2`,
+            [password, id]
+        );
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
+export async function setBioByUserId(id: string, bio: string): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(`UPDATE users SET bio = $1 WHERE id = $2`, [
+            bio,
+            id,
+        ]);
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}

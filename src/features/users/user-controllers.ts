@@ -1,7 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
-import { fetchUserService, logoutService } from './user-services.js';
+import {
+    fetchUserService,
+    logoutService,
+    updateUserService,
+} from './user-services.js';
 import { OkResponse } from '../../utils/responses/SuccessResponse.js';
 import z from 'zod';
+
+// Should divide this files into respective controllers-services just like "authentication"
 
 const TokenSchema = z.string();
 
@@ -23,6 +29,52 @@ export async function fetchUserController(
 
         res.status(response.httpCode).json(response.toJSON());
     } catch (error) {
+        next(error);
+    }
+}
+
+const UpdateUserFormSchema = z.object({
+    username: z.string().min(5).optional().or(z.literal('')),
+    email: z.string().email().optional().or(z.literal('')),
+    password: z
+        .string()
+        .min(8)
+        .refine((password) => /[A-Z]/.test(password), {
+            message: 'Password must contain at least one uppercase letter',
+        })
+        .refine((password) => /[a-z]/.test(password), {
+            message: 'Password must contain at least one lowercase letter',
+        })
+        .refine((password) => /[0-9]/.test(password), {
+            message: 'Password must contain at least one number',
+        })
+        .refine((password) => /[!@#$%^&*]/.test(password), {
+            message: 'Password must contain at least one special character',
+        })
+        .optional()
+        .or(z.literal('')),
+    bio: z.string().optional().or(z.literal('')),
+});
+
+export async function updateUserController(
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const tokenId = TokenSchema.parse(req.id);
+        const { username, email, password, bio } = UpdateUserFormSchema.parse(
+            req.body
+        );
+
+        await updateUserService(tokenId, username, email, password, bio);
+
+        const response = new OkResponse('User has been updated successfully.', {
+            data: null,
+        });
+
+        res.status(response.httpCode).json(response.toJSON());
+    } catch (error: unknown) {
         next(error);
     }
 }

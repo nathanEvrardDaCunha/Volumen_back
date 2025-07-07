@@ -1,9 +1,20 @@
-import { NotFoundError } from '../../utils/errors/ClientError.js';
+import {
+    ConflictError,
+    NotFoundError,
+} from '../../utils/errors/ClientError.js';
 import {
     getUserById,
+    isEmailTaken,
+    isUsernameTaken,
+    setBioByUserId,
+    setEmailByUserId,
+    setPasswordByUserId,
     setRefreshTokenToNull,
+    setUsernameByUserId,
 } from '../../models/user-models.js';
 import { UserType } from '../../models/user-types.js';
+import BCRYPT from '../authentication/bcrypt-constants.js';
+import bcrypt from 'bcrypt';
 
 type ClientUserType = Omit<
     UserType,
@@ -25,4 +36,50 @@ export async function fetchUserService(
 
 export async function logoutService(refreshToken: string): Promise<void> {
     await setRefreshTokenToNull(refreshToken);
+}
+
+async function hashPassword(password: string): Promise<string> {
+    return await bcrypt.hash(password, BCRYPT);
+}
+
+export async function updateUserService(
+    tokenId: string,
+    username: string | undefined,
+    email: string | undefined,
+    password: string | undefined,
+    bio: string | undefined
+): Promise<void> {
+    const user = await getUserById(tokenId);
+    if (!user) {
+        throw new NotFoundError('User has not been found in database.');
+    }
+
+    if (
+        username !== undefined &&
+        username !== '' &&
+        user.username !== username
+    ) {
+        const isTaken = await isUsernameTaken(username);
+        if (isTaken) {
+            throw new ConflictError('Username is already taken in database.');
+        }
+        await setUsernameByUserId(user.id, username);
+    }
+
+    if (email !== undefined && email !== '' && user.email !== email) {
+        const isTaken = await isEmailTaken(email);
+        if (isTaken) {
+            throw new ConflictError('Email is already taken in database.');
+        }
+        await setEmailByUserId(user.id, email);
+    }
+
+    if (password !== undefined && password !== '') {
+        const hashedPassword = await hashPassword(password);
+        await setPasswordByUserId(user.id, hashedPassword);
+    }
+
+    if (bio !== undefined && bio !== '') {
+        await setBioByUserId(user.id, bio);
+    }
 }
