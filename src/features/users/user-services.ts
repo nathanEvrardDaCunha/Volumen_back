@@ -1,5 +1,8 @@
 import { NotFoundError } from '../../utils/errors/ClientError.js';
-import { getUserById } from '../../models/user-models.js';
+import {
+    getUserById,
+    setRefreshTokenToNull,
+} from '../../models/user-models.js';
 import { UserType } from '../../models/user-types.js';
 
 type ClientUserType = Omit<
@@ -18,4 +21,8 @@ export async function fetchUserService(
     const { refresh_token, updated_at, id, password_hash, ...newUser } = user;
 
     return newUser;
+}
+
+export async function logoutService(refreshToken: string): Promise<void> {
+    await setRefreshTokenToNull(refreshToken);
 }

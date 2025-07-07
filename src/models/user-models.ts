@@ -133,3 +133,20 @@ export async function setRefreshTokenByUserId(
         }
     }
 }
+
+export async function setRefreshTokenToNull(
+    refreshToken: string
+): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(
+            'UPDATE users SET refresh_token = $1 WHERE refresh_token = $2',
+            [null, refreshToken]
+        );
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
