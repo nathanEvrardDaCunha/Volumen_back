@@ -3,6 +3,7 @@ import {
     NotFoundError,
 } from '../../utils/errors/ClientError.js';
 import {
+    deleteUser,
     getUserById,
     isEmailTaken,
     isUsernameTaken,
@@ -82,4 +83,13 @@ export async function updateUserService(
     if (bio !== undefined && bio !== '') {
         await setBioByUserId(user.id, bio);
     }
+}
+
+export async function deleteUserService(userId: string): Promise<void> {
+    const user = await getUserById(userId);
+    if (!user) {
+        throw new NotFoundError('User has not been found in database !');
+    }
+
+    await deleteUser(user.id);
 }

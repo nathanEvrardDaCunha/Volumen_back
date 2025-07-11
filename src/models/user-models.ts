@@ -251,3 +251,15 @@ export async function setBioByUserId(id: string, bio: string): Promise<void> {
         }
     }
 }
+
+export async function deleteUser(id: string): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(`DELETE FROM users WHERE id = $1`, [id]);
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}

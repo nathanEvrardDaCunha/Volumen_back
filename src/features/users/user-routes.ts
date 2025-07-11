@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+    deleteUserController,
     fetchUserController,
     logoutUserController,
     updateUserController,
@@ -11,6 +12,8 @@ const userRouter = express.Router();
 userRouter.route('/').get(fetchUserController);
 
 userRouter.route('/').patch(updateUserController);
+
+userRouter.route('/').delete(deleteUserController);
 
 userRouter.route('/logout').post(logoutUserController);
 
