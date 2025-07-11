@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import JWT from '../../../constants/jwt-constants.js';
 import {
@@ -12,11 +11,7 @@ import {
     ConflictError,
     NotFoundError,
 } from '../../../utils/errors/ClientError.js';
-import BCRYPT from '../bcrypt-constants.js';
-
-async function hashPassword(password: string): Promise<string> {
-    return await bcrypt.hash(password, BCRYPT);
-}
+import { hashPassword } from '../utils.js';
 
 export async function registerService(
     username: string,
