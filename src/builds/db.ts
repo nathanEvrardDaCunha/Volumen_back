@@ -37,6 +37,8 @@ export async function connectToDB(): Promise<void> {
 
 // TODO: Synchronize the constraint with the codebase (e.g: VARCHAR(${USERNAME_MAX_LENGTH}))
 
+// TODO: replace the 'abstract-blue-orange.jpg' by AVATAR constant value
+
 export async function initializeDB(): Promise<void> {
     let client: pkg.PoolClient | undefined;
     try {
@@ -50,7 +52,7 @@ export async function initializeDB(): Promise<void> {
                 username VARCHAR(50) NOT NULL UNIQUE,
                 email VARCHAR(255) NOT NULL UNIQUE,
                 password_hash VARCHAR(255) NOT NULL,
-                avatar_id VARCHAR(50) NOT NULL DEFAULT 'default-avatar.svg',
+                avatar_id VARCHAR(50) NOT NULL DEFAULT 'abstract-blue-orange.jpg',
                 bio TEXT,
                 created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,

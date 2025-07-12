@@ -7,6 +7,7 @@ import {
     getUserById,
     isEmailTaken,
     isUsernameTaken,
+    setAvatarByUserId,
     setBioByUserId,
     setEmailByUserId,
     setPasswordByUserId,
@@ -16,6 +17,7 @@ import {
 import { UserType } from '../../models/user-types.js';
 import BCRYPT from '../authentication/bcrypt-constants.js';
 import bcrypt from 'bcrypt';
+import { UpdateAvatarType } from './user-controllers.js';
 
 type ClientUserType = Omit<
     UserType,
@@ -35,12 +37,59 @@ export async function fetchUserService(
     return newUser;
 }
 
+type ClientAvatarType = Omit<
+    UserType,
+    | 'refresh_token'
+    | 'updated_at'
+    | 'id'
+    | 'password_hash'
+    | 'username'
+    | 'email'
+    | 'bio'
+    | 'created_at'
+>;
+
+export async function fetchAvatarService(
+    tokenId: string
+): Promise<ClientAvatarType> {
+    const user = await getUserById(tokenId);
+    if (!user) {
+        throw new NotFoundError('User has not been found in database.');
+    }
+
+    const {
+        refresh_token,
+        updated_at,
+        id,
+        password_hash,
+        bio,
+        username,
+        email,
+        created_at,
+        ...newUser
+    } = user;
+
+    return newUser;
+}
+
 export async function logoutService(refreshToken: string): Promise<void> {
     await setRefreshTokenToNull(refreshToken);
 }
 
 async function hashPassword(password: string): Promise<string> {
     return await bcrypt.hash(password, BCRYPT);
+}
+
+export async function updateAvatarService(
+    tokenId: string,
+    avatar_id: string
+): Promise<void> {
+    const user = await getUserById(tokenId);
+    if (!user) {
+        throw new NotFoundError('User has not been found in database.');
+    }
+
+    await setAvatarByUserId(user.id, avatar_id);
 }
 
 export async function updateUserService(

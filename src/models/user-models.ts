@@ -1,6 +1,7 @@
 import { PoolClient } from 'pg';
 import { pool } from '../builds/db.js';
 import { UserSchema, UserType } from './user-types.js';
+import { UpdateAvatarType } from '../features/users/user-controllers.js';
 
 // Don't forget to format the data when necessary.
 
@@ -176,6 +177,24 @@ export async function isEmailTaken(email: string): Promise<boolean> {
             [email]
         );
         return result.rows.length > 0;
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
+export async function setAvatarByUserId(
+    id: string,
+    avatar_id: string
+): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(`UPDATE users SET avatar_id = $1 WHERE id = $2`, [
+            avatar_id,
+            id,
+        ]);
     } finally {
         if (client) {
             client.release();
