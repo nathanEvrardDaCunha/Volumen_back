@@ -11,6 +11,7 @@ import notFoundHandler from './middlewares/not-found-handlers.js';
 import tokenHandler from './middlewares/token-handlers.js';
 import rateHandler from './middlewares/rate-limiter-handlers.js';
 import tokenRouter from './features/token/token-routes.js';
+import bookRouter from './features/books/book-routes.js';
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/token', tokenRouter);
 
 app.use('/api/users', tokenHandler, userRouter);
+app.use('/api/books', tokenHandler, bookRouter);
 
 app.use(notFoundHandler);
 
