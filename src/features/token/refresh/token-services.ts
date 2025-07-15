@@ -1,11 +1,11 @@
 import jwt from 'jsonwebtoken';
 import { z } from 'zod';
-import JWT from '../../constants/jwt-constants.js';
+import JWT from '../../../constants/jwt-constants.js';
 import {
     NotFoundError,
     UnauthorizedError,
-} from '../../utils/errors/ClientError.js';
-import { getUserById } from '../../models/user-models.js';
+} from '../../../utils/errors/ClientError.js';
+import { getUserById } from '../../../models/user-models.js';
 
 const DecodedPayloadSchema = z.object({
     id: z.string(),

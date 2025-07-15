@@ -3,8 +3,8 @@ import {
     setPasswordByUserId,
 } from '../../../models/user-models.js';
 import nodemailer from 'nodemailer';
-import { hashPassword } from '../utils.js';
 import MAILER from '../nodemailer-constants.js';
+import { hashPassword } from '../../../utils/password/password-utils.js';
 
 export function generateRandomPassword(length: number = 12): string {
     const lowercase = 'abcdefghijklmnopqrstuvwxyz';

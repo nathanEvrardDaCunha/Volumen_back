@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { refreshTokenService } from './token-services.js';
-import { OkResponse } from '../../utils/responses/SuccessResponse.js';
+import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
 import z from 'zod';
 
 const TokenSchema = z.object({

@@ -1,7 +1,6 @@
 import { PoolClient } from 'pg';
 import { pool } from '../builds/db.js';
 import { UserSchema, UserType } from './user-types.js';
-import { UpdateAvatarType } from '../features/users/user-controllers.js';
 
 // Don't forget to format the data when necessary.
 

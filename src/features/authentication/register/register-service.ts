@@ -11,7 +11,7 @@ import {
     ConflictError,
     NotFoundError,
 } from '../../../utils/errors/ClientError.js';
-import { hashPassword } from '../utils.js';
+import { hashPassword } from '../../../utils/password/password-utils.js';
 
 export async function registerService(
     username: string,
