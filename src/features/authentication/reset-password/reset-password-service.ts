@@ -1,7 +1,7 @@
 import {
     getUserByEmail,
     setPasswordByUserId,
-} from '../../../models/user-models.js';
+} from '../../../models/users/user-models.js';
 import nodemailer from 'nodemailer';
 import MAILER from '../nodemailer-constants.js';
 import { hashPassword } from '../../../utils/password/password-utils.js';

@@ -4,7 +4,7 @@ import JWT from '../../../constants/jwt-constants.js';
 import {
     getUserByEmail,
     setRefreshTokenByUserId,
-} from '../../../models/user-models.js';
+} from '../../../models/users/user-models.js';
 import {
     NotFoundError,
     ForbiddenError,

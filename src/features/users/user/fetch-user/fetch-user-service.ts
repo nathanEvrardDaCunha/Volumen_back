@@ -1,5 +1,5 @@
-import { getUserById } from '../../../../models/user-models.js';
-import { UserType } from '../../../../models/user-types.js';
+import { getUserById } from '../../../../models/users/user-models.js';
+import { UserType } from '../../../../models/users/user-types.js';
 import { NotFoundError } from '../../../../utils/errors/ClientError.js';
 
 type ClientUserType = Omit<

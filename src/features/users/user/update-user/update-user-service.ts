@@ -6,7 +6,7 @@ import {
     setEmailByUserId,
     setPasswordByUserId,
     setUsernameByUserId,
-} from '../../../../models/user-models.js';
+} from '../../../../models/users/user-models.js';
 import {
     ConflictError,
     NotFoundError,

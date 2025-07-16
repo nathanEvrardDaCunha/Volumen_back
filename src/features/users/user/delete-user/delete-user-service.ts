@@ -1,4 +1,7 @@
-import { deleteUser, getUserById } from '../../../../models/user-models.js';
+import {
+    deleteUser,
+    getUserById,
+} from '../../../../models/users/user-models.js';
 import { NotFoundError } from '../../../../utils/errors/ClientError.js';
 
 export async function deleteUserService(userId: string): Promise<void> {

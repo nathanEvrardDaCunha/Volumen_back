@@ -60,6 +60,7 @@ export async function initializeDB(): Promise<void> {
             );
         `);
 
+        // Check if there is something preventing me, thankfully, from creating multiple "Want to Read" shelve with the same user
         await client.query(`
             CREATE TABLE IF NOT EXISTS shelves (
                 id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -78,13 +79,29 @@ export async function initializeDB(): Promise<void> {
 
         await client.query(`
             CREATE TABLE IF NOT EXISTS books (
-                id VARCHAR(64) PRIMARY KEY,
-                title TEXT NOT NULL,
-                author TEXT NOT NULL,
-                cover_url TEXT,
-                synopsis TEXT,
+                id TEXT PRIMARY KEY,
+                self_link TEXT,
+                title TEXT,
+                authors TEXT[],
+                subtitle TEXT,
+                description TEXT,
+                publisher TEXT,
+                published_date TEXT,
+                industry_identifiers JSONB,
                 page_count INTEGER,
-                published_date DATE
+                dimensions JSONB,
+                maturity_rating TEXT,
+                language TEXT,
+                preview_link TEXT,
+                info_link TEXT,
+                canonical_volume_link TEXT,
+                categories TEXT[],
+                sale_country TEXT,
+                saleability TEXT,
+                is_ebook BOOLEAN,
+                list_price JSONB,
+                retail_price JSONB,
+                buy_link TEXT
             );
         `);
 
@@ -93,7 +110,6 @@ export async function initializeDB(): Promise<void> {
                 shelf_id uuid NOT NULL REFERENCES shelves(id) ON DELETE CASCADE,
                 book_id VARCHAR(64) NOT NULL REFERENCES books(id) ON DELETE CASCADE,
                 added_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-                reading_status VARCHAR(50) NOT NULL DEFAULT 'want_to_read',
                 PRIMARY KEY (shelf_id, book_id)
             );
         `);

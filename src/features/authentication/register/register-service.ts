@@ -6,12 +6,13 @@ import {
     createUser,
     getUserByEmail,
     setRefreshTokenByUserId,
-} from '../../../models/user-models.js';
+} from '../../../models/users/user-models.js';
 import {
     ConflictError,
     NotFoundError,
 } from '../../../utils/errors/ClientError.js';
 import { hashPassword } from '../../../utils/password/password-utils.js';
+import { createShelveByUserId } from '../../../models/shelves/shelve-model.js';
 
 export async function registerService(
     username: string,
@@ -36,6 +37,11 @@ export async function registerService(
     if (!user) {
         throw new NotFoundError('User has not been found in database.');
     }
+
+    await createShelveByUserId(user.id, 'Want to Read');
+    await createShelveByUserId(user.id, 'Currently Reading');
+    await createShelveByUserId(user.id, 'Read');
+    await createShelveByUserId(user.id, 'Did not Finish');
 
     const refreshToken = jwt.sign({ id: user.id }, JWT.refresh_token, {
         expiresIn: '14d',

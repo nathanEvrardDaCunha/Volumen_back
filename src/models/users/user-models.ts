@@ -1,5 +1,5 @@
 import { PoolClient } from 'pg';
-import { pool } from '../builds/db.js';
+import { pool } from '../../builds/db.js';
 import { UserSchema, UserType } from './user-types.js';
 
 // Don't forget to format the data when necessary.

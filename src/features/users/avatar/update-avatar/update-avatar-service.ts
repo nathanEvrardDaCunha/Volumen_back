@@ -1,7 +1,7 @@
 import {
     getUserById,
     setAvatarByUserId,
-} from '../../../../models/user-models.js';
+} from '../../../../models/users/user-models.js';
 import { NotFoundError } from '../../../../utils/errors/ClientError.js';
 
 export async function updateAvatarService(
