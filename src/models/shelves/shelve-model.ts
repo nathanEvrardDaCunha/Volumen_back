@@ -20,6 +20,24 @@ export async function createShelveByUserId(
     }
 }
 
+export async function createCustomShelveByUserId(
+    userId: string,
+    name: string
+): Promise<void> {
+    let client: PoolClient | undefined;
+    try {
+        client = await pool.connect();
+        await client.query(
+            `INSERT INTO shelves (name, user_id, is_custom) VALUES ($1, $2, $3)`,
+            [name, userId, true]
+        );
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
+}
+
 export async function getShelveByUserId(
     userId: string,
     name: string

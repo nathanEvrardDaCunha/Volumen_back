@@ -12,6 +12,7 @@ import tokenHandler from './middlewares/token-handlers.js';
 import rateHandler from './middlewares/rate-limiter-handlers.js';
 import tokenRouter from './features/token/token-routes.js';
 import bookRouter from './features/books/book-routes.js';
+import shelfRouter from './features/shelves/shelves-routes.js';
 
 dotenv.config();
 
@@ -42,6 +43,7 @@ app.use('/api/token', tokenRouter);
 
 app.use('/api/users', tokenHandler, userRouter);
 app.use('/api/books', tokenHandler, bookRouter);
+app.use('/api/shelves', tokenHandler, shelfRouter);
 
 app.use(notFoundHandler);
 
