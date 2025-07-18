@@ -4,7 +4,7 @@ import {
 } from '../../models/books-on-shelves/books-on-shelves-models.js';
 import { createBook, getBookById } from '../../models/books/book-model.js';
 import { Book } from '../../models/books/book-schema.js';
-import { getShelveByUserId } from '../../models/shelves/shelve-model.js';
+import { getShelfByUserId } from '../../models/shelves/shelve-model.js';
 import { getUserById } from '../../models/users/user-models.js';
 import { NotFoundError } from '../../utils/errors/ClientError.js';
 import { fetchGoogleBookByQuery } from './book-api.js';
@@ -37,7 +37,7 @@ export async function saveBookService(
         await createBook(bookData);
     }
 
-    const shelve = await getShelveByUserId(user.id, 'Want to Read');
+    const shelve = await getShelfByUserId(user.id, 'Want to Read');
     if (!shelve) {
         throw new NotFoundError(
             `User shelves ${'Want to Read'} has not been found in database.`
