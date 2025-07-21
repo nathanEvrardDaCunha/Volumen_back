@@ -1,5 +1,5 @@
 import {
-    getBookToShelve,
+    getBookFromShelf,
     linkBookToShelve,
 } from '../../models/books-on-shelves/books-on-shelves-models.js';
 import { createBook, getBookById } from '../../models/books/book-model.js';
@@ -44,7 +44,7 @@ export async function saveBookService(
         );
     }
 
-    const link = await getBookToShelve(bookData.id, shelve.id);
+    const link = await getBookFromShelf(bookData.id, shelve.id);
     if (!link) {
         await linkBookToShelve(bookData, shelve);
     }
