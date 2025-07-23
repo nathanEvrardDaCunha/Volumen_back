@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import {
-    Book,
+    BookType,
     BookItem,
     BookItemSchema,
     BookSchema,
@@ -11,15 +11,15 @@ const GoogleBookResponseSchema = z.object({
     items: z.array(BookItemSchema),
 });
 
-function validateBook(item: BookItem): Book {
+function validateBook(item: BookItem): BookType {
     return BookSchema.parse(item);
 }
 
-function processGoogleBooksResponse(response: unknown): Book[] {
+function processGoogleBooksResponse(response: unknown): BookType[] {
     try {
         const validatedResponse = GoogleBookResponseSchema.parse(response);
 
-        const books: Book[] = validatedResponse.items.map(validateBook);
+        const books: BookType[] = validatedResponse.items.map(validateBook);
 
         return books;
     } catch (error) {
@@ -30,7 +30,7 @@ function processGoogleBooksResponse(response: unknown): Book[] {
 
 export async function fetchGoogleBookByQuery(
     queryTerm: string
-): Promise<Book[]> {
+): Promise<BookType[]> {
     const url = new URL('https://www.googleapis.com/books/v1/volumes');
     url.searchParams.append('q', queryTerm);
     url.searchParams.append('key', GOOGLE);

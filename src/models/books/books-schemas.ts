@@ -61,4 +61,4 @@ export const BookSchema = z.object({
 });
 
 // Add prefix "Type" to every type everywhere
-export type Book = z.infer<typeof BookSchema>;
+export type BookType = z.infer<typeof BookSchema>;

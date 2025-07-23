@@ -1,6 +1,6 @@
 import { PoolClient } from 'pg';
 import { pool } from '../../builds/db.js';
-import { Book, BookSchema } from '../books/books-schemas.js';
+import { BookType, BookSchema } from '../books/books-schemas.js';
 import { ShelfType } from '../shelves/shelves-schemas.js';
 import {
     BookOnShelfSchema,
@@ -50,7 +50,7 @@ export async function getBookFromShelf(
 
 export async function getBooksFromShelf(
     ShelfId: string
-): Promise<Book[] | false> {
+): Promise<BookType[] | false> {
     let client: PoolClient | undefined;
     try {
         client = await pool.connect();

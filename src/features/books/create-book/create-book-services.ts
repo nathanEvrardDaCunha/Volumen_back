@@ -3,14 +3,14 @@ import {
     linkBookToShelve,
 } from '../../../models/books-on-shelves/books-on-shelves-models.js';
 import { createBook, getBookById } from '../../../models/books/books-models.js';
-import { Book } from '../../../models/books/books-schemas.js';
+import { BookType } from '../../../models/books/books-schemas.js';
 import { getShelfByUserId } from '../../../models/shelves/shelves-models.js';
 import { getUserById } from '../../../models/users/users-models.js';
 import { NotFoundError } from '../../../utils/errors/ClientError.js';
 
 export async function createBookService(
     tokenId: string,
-    bookData: Book
+    bookData: BookType
 ): Promise<void> {
     // rename "getUserBydId" to something more SQL like "selectUserById" ?
     const user = await getUserById(tokenId);

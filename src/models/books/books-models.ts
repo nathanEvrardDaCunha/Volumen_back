@@ -1,8 +1,8 @@
-import { Book, BookSchema } from './books-schemas.js';
+import { BookType, BookSchema } from './books-schemas.js';
 import { PoolClient } from 'pg';
 import { pool } from '../../builds/db.js';
 
-export async function getBookById(id: string): Promise<Book | false> {
+export async function getBookById(id: string): Promise<BookType | false> {
     let client: PoolClient | undefined;
     try {
         client = await pool.connect();
@@ -82,7 +82,7 @@ export async function getBookById(id: string): Promise<Book | false> {
     }
 }
 
-export async function createBook(book: Book): Promise<void> {
+export async function createBook(book: BookType): Promise<void> {
     let client: PoolClient | undefined;
     try {
         client = await pool.connect();

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import { OkResponse } from '../../utils/responses/SuccessResponse.js';
 import z from 'zod';
-import { fetchBooksFromUserShelvesService } from './books-on-shelves-services.js';
+import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
+import { readBooksOnShelvesService } from './read-books-on-shelves-services.js';
 
 const TokenSchema = z.string().min(1);
 
-export async function fetchBooksFromUserShelvesController(
+export async function readBooksOnShelvesController(
     req: Request,
     res: Response,
     next: NextFunction
@@ -14,7 +14,7 @@ export async function fetchBooksFromUserShelvesController(
         const tokenId = TokenSchema.parse(req.id);
 
         // Don't forget to sanitize user input.
-        const result = await fetchBooksFromUserShelvesService(tokenId);
+        const result = await readBooksOnShelvesService(tokenId);
 
         const response = new OkResponse(
             'Books from User Shelves and Shelves have been fetched successfully.',
