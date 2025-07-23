@@ -156,11 +156,3 @@ export async function createBook(book: BookType): Promise<void> {
         }
     }
 }
-
-//     id VARCHAR(64) PRIMARY KEY,
-//     title TEXT NOT NULL,
-//     author TEXT NOT NULL,
-//     cover_url TEXT,
-//     synopsis TEXT,
-//     page_count INTEGER,
-//     published_date DATE

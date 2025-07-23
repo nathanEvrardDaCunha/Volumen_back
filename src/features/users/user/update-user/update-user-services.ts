@@ -13,8 +13,6 @@ import {
 } from '../../../../utils/errors/ClientError.js';
 import { hashPassword } from '../../../../utils/password/password-utils.js';
 
-// Should I extract this and make it more global ?
-
 export async function updateUserService(
     tokenId: string,
     username: string | undefined,

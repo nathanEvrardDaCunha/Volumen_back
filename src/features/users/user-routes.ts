@@ -8,8 +8,6 @@ import { updateAvatarController } from './avatar/update-avatar/update-avatar-con
 
 const userRouter = express.Router();
 
-// Find a better name for the majority of features (controller => service => model)
-
 // When completely finished, might implement test ?
 userRouter.route('/').get(fetchUserController);
 

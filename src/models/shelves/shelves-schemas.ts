@@ -1,4 +1,3 @@
-// Add a "s" to every file named "schema" => "schemas"
 import { z } from 'zod';
 
 export const ShelfSchema = z.object({

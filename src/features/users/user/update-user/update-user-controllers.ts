@@ -4,7 +4,7 @@ import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
 import { updateUserService } from './update-user-services.js';
 import { TokenSchema } from '../../../../utils/schemas/global-schemas.js';
 
-const UpdateUserFormSchema = z.object({
+const BodySchema = z.object({
     username: z.string().min(5).optional().or(z.literal('')),
     email: z.string().email().optional().or(z.literal('')),
     password: z
@@ -34,9 +34,7 @@ export async function updateUserController(
 ): Promise<void> {
     try {
         const tokenId = TokenSchema.parse(req.id);
-        const { username, email, password, bio } = UpdateUserFormSchema.parse(
-            req.body
-        );
+        const { username, email, password, bio } = BodySchema.parse(req.body);
 
         await updateUserService(tokenId, username, email, password, bio);
 

@@ -3,7 +3,7 @@ import z from 'zod';
 import { loginService } from './login-services.js';
 import { CreatedResponse } from '../../../utils/responses/SuccessResponse.js';
 
-const LoginSchema = z.object({
+const BodySchema = z.object({
     email: z.string().email(),
     password: z
         .string()
@@ -29,7 +29,7 @@ export async function loginController(
     next: NextFunction
 ): Promise<void> {
     try {
-        const { email, password } = LoginSchema.parse(req.body);
+        const { email, password } = BodySchema.parse(req.body);
 
         const result = await loginService(email, password);
 

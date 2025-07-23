@@ -4,7 +4,7 @@ import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
 import { updateAvatarService } from './update-avatar-services.js';
 import { TokenSchema } from '../../../../utils/schemas/global-schemas.js';
 
-const UpdateAvatarSchema = z.object({
+const BodySchema = z.object({
     avatar_id: z.enum(
         [
             'abstract-red.jpg',
@@ -31,7 +31,6 @@ const UpdateAvatarSchema = z.object({
         }
     ),
 });
-export type UpdateAvatarType = z.infer<typeof UpdateAvatarSchema>;
 
 export async function updateAvatarController(
     req: Request,
@@ -42,7 +41,7 @@ export async function updateAvatarController(
         // For every controller service, add here a console.log "Started doing X controller"
 
         const tokenId = TokenSchema.parse(req.id);
-        const { avatar_id } = UpdateAvatarSchema.parse(req.body);
+        const { avatar_id } = BodySchema.parse(req.body);
 
         await updateAvatarService(tokenId, avatar_id);
 

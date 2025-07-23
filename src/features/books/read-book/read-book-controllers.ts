@@ -4,8 +4,6 @@ import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
 import { readBookService } from './read-book-services.js';
 import { TokenSchema } from '../../../utils/schemas/global-schemas.js';
 
-// Rename with the Prefix corresponding to the feature in every other controller files ?
-// Create a schema for every function receiving something in request (body, query...) specific only for their relevant function ?
 const QuerySchema = z.string().min(1);
 
 export async function readBookController(

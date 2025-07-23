@@ -7,9 +7,6 @@ import {
     BookOnShelfType,
 } from './books-on-shelves-schemas.js';
 
-// I should rewrite the name of every file missing the "s" from it's parent folder
-// E.g: "book-schema.ts" in "books" should be "books-schema.ts" for consistency reasons.
-
 // Here it's not a inner join but is called getBookFromSHelf, but the one below is an inner join with basically the same name
 export async function getBookFromShelf(
     bookId: string,

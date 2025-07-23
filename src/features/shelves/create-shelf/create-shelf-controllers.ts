@@ -4,7 +4,6 @@ import { createShelfService } from './create-shelf-services.js';
 import { CreatedResponse } from '../../../utils/responses/SuccessResponse.js';
 import { TokenSchema } from '../../../utils/schemas/global-schemas.js';
 
-// Rename with the Prefix corresponding to the feature in every other controller files ?
 const BodySchema = z.object({
     name: z.string().min(1).max(100),
 });

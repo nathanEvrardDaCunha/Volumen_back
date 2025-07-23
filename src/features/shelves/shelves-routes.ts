@@ -4,8 +4,6 @@ import { createShelfController } from './create-shelf/create-shelf-controllers.j
 
 const shelfRouter = express.Router();
 
-// Find a better name for the majority of features (controller => service => model)
-
 // When completely finished, might implement test ?
 shelfRouter.route('/').get(readShelvesController);
 

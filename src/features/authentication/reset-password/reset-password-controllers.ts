@@ -3,7 +3,7 @@ import z from 'zod';
 import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
 import { resetPasswordService } from './reset-password-services.js';
 
-const ResetPasswordSchema = z.object({
+const BodySchema = z.object({
     email: z.string().email(),
 });
 
@@ -13,7 +13,7 @@ export async function resetPasswordController(
     next: NextFunction
 ): Promise<void> {
     try {
-        const { email } = ResetPasswordSchema.parse(req.body);
+        const { email } = BodySchema.parse(req.body);
 
         await resetPasswordService(email);
 

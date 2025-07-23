@@ -3,7 +3,7 @@ import z from 'zod';
 import { logoutService } from './logout-services.js';
 import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
 
-const CookieSchema = z.object({
+const CookiesSchema = z.object({
     refreshToken: z.string(),
 });
 
@@ -13,7 +13,7 @@ export async function logoutUserController(
     next: NextFunction
 ): Promise<void> {
     try {
-        const { refreshToken } = CookieSchema.parse(req.cookies);
+        const { refreshToken } = CookiesSchema.parse(req.cookies);
 
         await logoutService(refreshToken);
 

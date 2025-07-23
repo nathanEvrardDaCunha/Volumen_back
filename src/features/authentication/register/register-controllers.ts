@@ -3,7 +3,7 @@ import z from 'zod';
 import { CreatedResponse } from '../../../utils/responses/SuccessResponse.js';
 import { registerService } from './register-services.js';
 
-const RegisterSchema = z.object({
+const BodySchema = z.object({
     username: z.string().min(5),
     email: z.string().email(),
     password: z
@@ -30,7 +30,7 @@ export async function registerController(
     next: NextFunction
 ): Promise<void> {
     try {
-        const { username, email, password } = RegisterSchema.parse(req.body);
+        const { username, email, password } = BodySchema.parse(req.body);
 
         await registerService(username, email, password);
 
