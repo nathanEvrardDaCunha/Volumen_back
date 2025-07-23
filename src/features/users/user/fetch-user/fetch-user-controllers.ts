@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
 import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
-import { deleteUserService } from './delete-user-service.js';
+import { fetchUserService } from './fetch-user-services.js';
 
 // Should extract this validation to be more global ?
 const TokenSchema = z.string();
 
-export async function deleteUserController(
+export async function fetchUserController(
     req: Request,
     res: Response,
     next: NextFunction
@@ -14,19 +14,16 @@ export async function deleteUserController(
     try {
         const tokenId = TokenSchema.parse(req.id);
 
-        await deleteUserService(tokenId);
+        // Don't forget to sanitize user input.
+        const result = await fetchUserService(tokenId);
 
-        const response = new OkResponse('User has been deleted successfully.', {
-            data: null,
-        });
-
-        res.clearCookie('refreshToken', {
-            httpOnly: true,
-            maxAge: 0,
-        });
+        const response = new OkResponse(
+            'User has been fetched successfully.',
+            result
+        );
 
         res.status(response.httpCode).json(response.toJSON());
-    } catch (error: unknown) {
+    } catch (error) {
         next(error);
     }
 }

@@ -2,9 +2,9 @@ import {
     createCustomShelveByUserId,
     fetchShelvesByUserId,
     getShelfByUserId,
-} from '../../models/shelves/shelve-model.js';
+} from '../../models/shelves/shelves-models.js';
 import { ShelveType } from '../../models/shelves/shelves-schemas.js';
-import { getUserById } from '../../models/users/user-models.js';
+import { getUserById } from '../../models/users/users-models.js';
 import {
     ConflictError,
     NotFoundError,

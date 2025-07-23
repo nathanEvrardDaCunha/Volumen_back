@@ -1,8 +1,8 @@
 import { getBooksFromShelf } from '../../models/books-on-shelves/books-on-shelves-models.js';
-import { Book } from '../../models/books/book-schema.js';
-import { fetchShelvesByUserId } from '../../models/shelves/shelve-model.js';
+import { Book } from '../../models/books/books-schemas.js';
+import { fetchShelvesByUserId } from '../../models/shelves/shelves-models.js';
 import { ShelveType } from '../../models/shelves/shelves-schemas.js';
-import { getUserById } from '../../models/users/user-models.js';
+import { getUserById } from '../../models/users/users-models.js';
 import { NotFoundError } from '../../utils/errors/ClientError.js';
 
 // Is it a good Idea to move every schema in the "service" file they belong to and duplicate it if necessary to create HcLC code ?

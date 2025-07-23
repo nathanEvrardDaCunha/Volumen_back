@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
 import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
-import { resetPasswordService } from './reset-password-service.js';
+import { resetPasswordService } from './reset-password-services.js';
 
 const ResetPasswordSchema = z.object({
     email: z.string().email(),

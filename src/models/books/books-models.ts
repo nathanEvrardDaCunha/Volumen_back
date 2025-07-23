@@ -1,4 +1,4 @@
-import { Book, BookSchema } from './book-schema.js';
+import { Book, BookSchema } from './books-schemas.js';
 import { PoolClient } from 'pg';
 import { pool } from '../../builds/db.js';
 
@@ -44,31 +44,31 @@ export async function getBookById(id: string): Promise<Book | false> {
 
         const bookData = {
             id: row.id,
-            selfLink: row.self_link,
+            selfLink: row.self_link || undefined,
             volumeInfo: {
-                title: row.title,
-                authors: row.authors,
-                subtitle: row.subtitle,
-                description: row.description,
-                publisher: row.publisher,
-                publishedDate: row.published_date,
-                industryIdentifiers: row.industry_identifiers,
-                pageCount: row.page_count,
+                title: row.title || undefined,
+                authors: row.authors || undefined,
+                subtitle: row.subtitle || undefined,
+                description: row.description || undefined,
+                publisher: row.publisher || undefined,
+                publishedDate: row.published_date || undefined,
+                industryIdentifiers: row.industry_identifiers || undefined,
+                pageCount: row.page_count || undefined,
                 dimensions: row.dimensions || undefined,
-                maturityRating: row.maturity_rating,
-                language: row.language,
-                previewLink: row.preview_link,
-                infoLink: row.info_link,
-                canonicalVolumeLink: row.canonical_volume_link,
-                categories: row.categories,
+                maturityRating: row.maturity_rating || undefined,
+                language: row.language || undefined,
+                previewLink: row.preview_link || undefined,
+                infoLink: row.info_link || undefined,
+                canonicalVolumeLink: row.canonical_volume_link || undefined,
+                categories: row.categories || undefined,
             },
             saleInfo: {
-                country: row.sale_country,
-                saleability: row.saleability,
-                isEbook: row.is_ebook,
+                country: row.sale_country || undefined,
+                saleability: row.saleability || undefined,
+                isEbook: row.is_ebook || undefined,
                 listPrice: row.list_price || undefined,
                 retailPrice: row.retail_price || undefined,
-                buyLink: row.buy_link,
+                buyLink: row.buy_link || undefined,
             },
         };
 

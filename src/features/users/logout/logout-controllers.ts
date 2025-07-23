@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
-import { logoutService } from './logout-service.js';
+import { logoutService } from './logout-services.js';
 import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
 
 const RefreshTokenSchema = z.object({

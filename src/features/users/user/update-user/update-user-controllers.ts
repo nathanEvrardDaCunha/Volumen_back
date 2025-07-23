@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
 import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
-import { updateUserService } from './update-user-service.js';
+import { updateUserService } from './update-user-services.js';
 
 // Should extract this validation to be more global ?
 const TokenSchema = z.string();

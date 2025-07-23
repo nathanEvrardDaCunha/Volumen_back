@@ -5,7 +5,7 @@ import {
     NotFoundError,
     UnauthorizedError,
 } from '../../../utils/errors/ClientError.js';
-import { getUserById } from '../../../models/users/user-models.js';
+import { getUserById } from '../../../models/users/users-models.js';
 
 const DecodedPayloadSchema = z.object({
     id: z.string(),

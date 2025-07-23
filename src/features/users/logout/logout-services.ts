@@ -1,4 +1,4 @@
-import { setRefreshTokenToNull } from '../../../models/users/user-models.js';
+import { setRefreshTokenToNull } from '../../../models/users/users-models.js';
 
 export async function logoutService(refreshToken: string): Promise<void> {
     await setRefreshTokenToNull(refreshToken);

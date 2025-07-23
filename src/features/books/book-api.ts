@@ -4,7 +4,7 @@ import {
     BookItem,
     BookItemSchema,
     BookSchema,
-} from '../../models/books/book-schema.js';
+} from '../../models/books/books-schemas.js';
 import GOOGLE from './google-book-constants.js';
 
 const GoogleBookResponseSchema = z.object({

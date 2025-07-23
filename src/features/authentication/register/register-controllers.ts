@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
-import { loginService } from './login-service.js';
 import { CreatedResponse } from '../../../utils/responses/SuccessResponse.js';
+import { registerService } from './register-services.js';
 
-const LoginSchema = z.object({
+const RegisterSchema = z.object({
+    username: z.string().min(5),
     email: z.string().email(),
     password: z
         .string()
@@ -23,27 +24,19 @@ const LoginSchema = z.object({
 });
 
 // Don't forget to sanitize user input.
-export async function loginController(
+export async function registerController(
     req: Request,
     res: Response,
     next: NextFunction
 ): Promise<void> {
     try {
-        const { email, password } = LoginSchema.parse(req.body);
+        const { username, email, password } = RegisterSchema.parse(req.body);
 
-        const result = await loginService(email, password);
+        await registerService(username, email, password);
 
         const response = new CreatedResponse(
-            'User has been authenticated successfully.',
-            {
-                accessToken: result.accessToken,
-            }
+            'User has been created successfully.'
         );
-
-        res.cookie('refreshToken', result.refreshToken, {
-            httpOnly: true,
-            maxAge: 14 * 24 * 60 * 60 * 1000,
-        });
 
         res.status(response.httpCode).json(response.toJSON());
     } catch (error) {

@@ -1,7 +1,7 @@
 import express from 'express';
-import { registerController } from './register/register-controller.js';
-import { loginController } from './login/login-controller.js';
-import { resetPasswordController } from './reset-password/reset-password-controller.js';
+import { registerController } from './register/register-controllers.js';
+import { loginController } from './login/login-controllers.js';
+import { resetPasswordController } from './reset-password/reset-password-controllers.js';
 
 const authRouter = express.Router();
 

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { BookSchema } from '../books/book-schema.js';
+import { BookSchema } from '../books/books-schemas.js';
 import { ShelveSchema } from '../shelves/shelves-schemas.js';
 
 export const BookOnShelfSchema = z.object({

@@ -1,12 +1,14 @@
 import express from 'express';
-import { logoutUserController } from './logout/logout-controller.js';
-import { fetchUserController } from './user/fetch-user/fetch-user-controller.js';
-import { updateUserController } from './user/update-user/update-user-controller.js';
-import { deleteUserController } from './user/delete-user/delete-user-controller.js';
-import { fetchAvatarController } from './avatar/fetch-avatar/fetch-avatar-controller.js';
-import { updateAvatarController } from './avatar/update-avatar/update-avatar-controller.js';
+import { logoutUserController } from './logout/logout-controllers.js';
+import { fetchUserController } from './user/fetch-user/fetch-user-controllers.js';
+import { updateUserController } from './user/update-user/update-user-controllers.js';
+import { deleteUserController } from './user/delete-user/delete-user-controllers.js';
+import { fetchAvatarController } from './avatar/fetch-avatar/fetch-avatar-controllers.js';
+import { updateAvatarController } from './avatar/update-avatar/update-avatar-controllers.js';
 
 const userRouter = express.Router();
+
+// Find a better name for the majority of features (controller => service => model)
 
 // When completely finished, might implement test ?
 userRouter.route('/').get(fetchUserController);

@@ -1,6 +1,6 @@
 import { PoolClient } from 'pg';
 import { pool } from '../../builds/db.js';
-import { Book, BookSchema } from '../books/book-schema.js';
+import { Book, BookSchema } from '../books/books-schemas.js';
 import { ShelveType } from '../shelves/shelves-schemas.js';
 import {
     BookOnShelfSchema,
@@ -13,7 +13,7 @@ import {
 // Here it's not a inner join but is called getBookFromSHelf, but the one below is an inner join with basically the same name
 export async function getBookFromShelf(
     bookId: string,
-    shelveId: string
+    ShelfId: string
 ): Promise<BookOnShelfType | false> {
     let client: PoolClient | undefined;
     try {
@@ -23,7 +23,7 @@ export async function getBookFromShelf(
             `SELECT 
                 shelf_id, book_id, added_at
             FROM books_on_shelves WHERE book_id = $1 AND shelf_id = $2`,
-            [bookId, shelveId]
+            [bookId, ShelfId]
         );
 
         if (result.rows.length === 0) {
@@ -49,7 +49,7 @@ export async function getBookFromShelf(
 }
 
 export async function getBooksFromShelf(
-    shelveId: string
+    ShelfId: string
 ): Promise<Book[] | false> {
     let client: PoolClient | undefined;
     try {
@@ -83,41 +83,43 @@ export async function getBooksFromShelf(
             FROM books_on_shelves
             INNER JOIN books ON books_on_shelves.book_id = books.id
             WHERE books_on_shelves.shelf_id = $1`,
-            [shelveId]
+            [ShelfId]
         );
 
         if (result.rows.length === 0) {
             return false;
         }
 
+        // when parsing, instead of returning hardcoded value, make it return a type ?
+        // example: book is BookType and not { id... }
         const books = result.rows.map((row: any) => {
             const bookData = {
                 id: row.id,
                 selfLink: row.self_link,
                 volumeInfo: {
-                    title: row.title,
-                    authors: row.authors,
-                    subtitle: row.subtitle,
-                    description: row.description,
-                    publisher: row.publisher,
-                    publishedDate: row.published_date,
-                    industryIdentifiers: row.industry_identifiers,
-                    pageCount: row.page_count,
+                    title: row.title || undefined,
+                    authors: row.authors || undefined,
+                    subtitle: row.subtitle || undefined,
+                    description: row.description || undefined,
+                    publisher: row.publisher || undefined,
+                    publishedDate: row.published_date || undefined,
+                    industryIdentifiers: row.industry_identifiers || undefined,
+                    pageCount: row.page_count || undefined,
                     dimensions: row.dimensions || undefined,
-                    maturityRating: row.maturity_rating,
-                    language: row.language,
-                    previewLink: row.preview_link,
-                    infoLink: row.info_link,
-                    canonicalVolumeLink: row.canonical_volume_link,
-                    categories: row.categories,
+                    maturityRating: row.maturity_rating || undefined,
+                    language: row.language || undefined,
+                    previewLink: row.preview_link || undefined,
+                    infoLink: row.info_link || undefined,
+                    canonicalVolumeLink: row.canonical_volume_link || undefined,
+                    categories: row.categories || undefined,
                 },
                 saleInfo: {
-                    country: row.sale_country,
-                    saleability: row.saleability,
-                    isEbook: row.is_ebook,
+                    country: row.sale_country || undefined,
+                    saleability: row.saleability || undefined,
+                    isEbook: row.is_ebook || undefined,
                     listPrice: row.list_price || undefined,
                     retailPrice: row.retail_price || undefined,
-                    buyLink: row.buy_link,
+                    buyLink: row.buy_link || undefined,
                 },
             };
 
@@ -134,15 +136,15 @@ export async function getBooksFromShelf(
 
 // Correct the grammatical mistake of "shelve" (singular) to "shelf"
 export async function linkBookToShelve(
-    book: Book,
-    shelve: ShelveType
+    bookId: string,
+    shelfId: string
 ): Promise<void> {
     let client: PoolClient | undefined;
     try {
         client = await pool.connect();
         await client.query(
             `INSERT INTO books_on_shelves (book_id, shelf_id) VALUES ($1, $2)`,
-            [book.id, shelve.id]
+            [bookId, shelfId]
         );
     } finally {
         if (client) {

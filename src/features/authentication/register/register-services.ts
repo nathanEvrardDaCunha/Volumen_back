@@ -6,13 +6,13 @@ import {
     createUser,
     getUserByEmail,
     setRefreshTokenByUserId,
-} from '../../../models/users/user-models.js';
+} from '../../../models/users/users-models.js';
 import {
     ConflictError,
     NotFoundError,
 } from '../../../utils/errors/ClientError.js';
 import { hashPassword } from '../../../utils/password/password-utils.js';
-import { createShelveByUserId } from '../../../models/shelves/shelve-model.js';
+import { createShelveByUserId } from '../../../models/shelves/shelves-models.js';
 
 export async function registerService(
     username: string,
