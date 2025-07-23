@@ -1,7 +1,7 @@
 import { getBooksFromShelf } from '../../models/books-on-shelves/books-on-shelves-models.js';
 import { Book } from '../../models/books/books-schemas.js';
 import { fetchShelvesByUserId } from '../../models/shelves/shelves-models.js';
-import { ShelveType } from '../../models/shelves/shelves-schemas.js';
+import { ShelfType } from '../../models/shelves/shelves-schemas.js';
 import { getUserById } from '../../models/users/users-models.js';
 import { NotFoundError } from '../../utils/errors/ClientError.js';
 
@@ -9,7 +9,7 @@ import { NotFoundError } from '../../utils/errors/ClientError.js';
 
 // Define the shelf type without the excluded fields
 type ShelfWithoutMetadata = Omit<
-    ShelveType,
+    ShelfType,
     'id' | 'userId' | 'createdAt' | 'updatedAt'
 >;
 

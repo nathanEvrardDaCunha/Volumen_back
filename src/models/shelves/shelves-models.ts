@@ -1,6 +1,6 @@
 import { PoolClient } from 'pg';
 import { pool } from '../../builds/db.js';
-import { ShelveSchema, ShelveType } from './shelves-schemas.js';
+import { ShelfSchema, ShelfType } from './shelves-schemas.js';
 
 export async function createShelveByUserId(
     userId: string,
@@ -20,7 +20,7 @@ export async function createShelveByUserId(
     }
 }
 
-export async function createCustomShelveByUserId(
+export async function createShelfByUserId(
     userId: string,
     name: string
 ): Promise<void> {
@@ -41,7 +41,7 @@ export async function createCustomShelveByUserId(
 export async function getShelfByUserId(
     userId: string,
     name: string
-): Promise<ShelveType | false> {
+): Promise<ShelfType | false> {
     let client: PoolClient | undefined;
     try {
         client = await pool.connect();
@@ -76,7 +76,7 @@ export async function getShelfByUserId(
             updatedAt: row.updated_at,
         };
 
-        const shelve = ShelveSchema.parse(shelveData);
+        const shelve = ShelfSchema.parse(shelveData);
 
         return shelve;
     } finally {
@@ -90,7 +90,7 @@ export async function getShelfByUserId(
 // Is this confusing ?
 export async function fetchShelvesByUserId(
     userId: string
-): Promise<ShelveType[]> {
+): Promise<ShelfType[]> {
     let client: PoolClient | undefined;
     try {
         client = await pool.connect();
@@ -120,7 +120,7 @@ export async function fetchShelvesByUserId(
                 updatedAt: row.updated_at,
             };
 
-            return ShelveSchema.parse(shelveData);
+            return ShelfSchema.parse(shelveData);
         });
 
         return shelves;

@@ -1,7 +1,7 @@
 import { PoolClient } from 'pg';
 import { pool } from '../../builds/db.js';
 import { Book, BookSchema } from '../books/books-schemas.js';
-import { ShelveType } from '../shelves/shelves-schemas.js';
+import { ShelfType } from '../shelves/shelves-schemas.js';
 import {
     BookOnShelfSchema,
     BookOnShelfType,

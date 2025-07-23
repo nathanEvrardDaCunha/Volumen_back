@@ -1,7 +1,7 @@
 // Add a "s" to every file named "schema" => "schemas"
 import { z } from 'zod';
 
-export const ShelveSchema = z.object({
+export const ShelfSchema = z.object({
     id: z.string().uuid(),
     userId: z.string().uuid(),
     name: z.string().min(1).max(100),
@@ -11,4 +11,4 @@ export const ShelveSchema = z.object({
     updatedAt: z.date(),
 });
 
-export type ShelveType = z.infer<typeof ShelveSchema>;
+export type ShelfType = z.infer<typeof ShelfSchema>;
