@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
 import { createShelfService } from './create-shelf-services.js';
 import { CreatedResponse } from '../../../utils/responses/SuccessResponse.js';
-
-// Update the TokenSchema with min(1) everywhere ?
-const TokenSchema = z.string().min(1);
+import { TokenSchema } from '../../../utils/schemas/global-schemas.js';
 
 // Rename with the Prefix corresponding to the feature in every other controller files ?
 const BodySchema = z.object({

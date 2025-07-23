@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import z from 'zod';
 import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
 import { readBooksOnShelvesService } from './read-books-on-shelves-services.js';
-
-const TokenSchema = z.string().min(1);
+import { TokenSchema } from '../../../utils/schemas/global-schemas.js';
 
 export async function readBooksOnShelvesController(
     req: Request,

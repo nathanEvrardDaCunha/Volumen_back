@@ -2,9 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
 import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
 import { updateUserService } from './update-user-services.js';
-
-// Should extract this validation to be more global ?
-const TokenSchema = z.string();
+import { TokenSchema } from '../../../../utils/schemas/global-schemas.js';
 
 const UpdateUserFormSchema = z.object({
     username: z.string().min(5).optional().or(z.literal('')),

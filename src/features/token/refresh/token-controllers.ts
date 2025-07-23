@@ -3,7 +3,7 @@ import { refreshTokenService } from './token-services.js';
 import { OkResponse } from '../../../utils/responses/SuccessResponse.js';
 import z from 'zod';
 
-const TokenSchema = z.object({
+const CookiesSchema = z.object({
     refreshToken: z.string(),
 });
 
@@ -13,7 +13,7 @@ export async function refreshTokenController(
     next: NextFunction
 ): Promise<void> {
     try {
-        const { refreshToken } = TokenSchema.parse(req.cookies);
+        const { refreshToken } = CookiesSchema.parse(req.cookies);
 
         const result = await refreshTokenService(refreshToken);
 

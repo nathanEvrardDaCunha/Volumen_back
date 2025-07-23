@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import z from 'zod';
 import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
 import { fetchAvatarService } from './fetch-avatar-services.js';
-
-const TokenSchema = z.string();
+import { TokenSchema } from '../../../../utils/schemas/global-schemas.js';
 
 export async function fetchAvatarController(
     req: Request,

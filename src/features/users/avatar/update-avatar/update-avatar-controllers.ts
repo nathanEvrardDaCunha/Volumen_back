@@ -2,8 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import z from 'zod';
 import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
 import { updateAvatarService } from './update-avatar-services.js';
-
-const TokenSchema = z.string();
+import { TokenSchema } from '../../../../utils/schemas/global-schemas.js';
 
 const UpdateAvatarSchema = z.object({
     avatar_id: z.enum(

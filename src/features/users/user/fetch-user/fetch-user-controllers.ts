@@ -1,10 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import z from 'zod';
 import { OkResponse } from '../../../../utils/responses/SuccessResponse.js';
 import { fetchUserService } from './fetch-user-services.js';
-
-// Should extract this validation to be more global ?
-const TokenSchema = z.string();
+import { TokenSchema } from '../../../../utils/schemas/global-schemas.js';
 
 export async function fetchUserController(
     req: Request,
